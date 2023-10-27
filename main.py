@@ -57,7 +57,7 @@ def get_registrations():
 @app.put("/checkin/{unique_id}")
 def checkin(unique_id: str):
     collection = database.db["member-registrations"]
-    data = collection.find_one({"unique_id": unique_id})
+    data = collection.find_one({"unique_id": unique_id, "check_in": False})
     if data:
         collection.update_one({"unique_id": unique_id}, {"$set": {"check_in": True}})
         return {"message": "checkin successful"}
@@ -68,7 +68,7 @@ def checkin(unique_id: str):
 @app.put("/lunch/{unique_id}")
 def lunch(unique_id: str):
     collection = database.db["member-registrations"]
-    data = collection.find_one({"unique_id": unique_id})
+    data = collection.find_one({"unique_id": unique_id, "check_in": True, "lunch": False})
     if data:
         collection.update_one({"unique_id": unique_id}, {"$set": {"lunch": True}})
         return {"message": "lunch successful"}
@@ -79,7 +79,7 @@ def lunch(unique_id: str):
 @app.put("/swag/{unique_id}")
 def swag(unique_id: str):
     collection = database.db["member-registrations"]
-    data = collection.find_one({"unique_id": unique_id})
+    data = collection.find_one({"unique_id": unique_id, "check_in": True, "swag": False})
     if data:
         collection.update_one({"unique_id": unique_id}, {"$set": {"swag": True}})
         return {"message": "swag successful"}
