@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 import uvicorn
 import urllib
 from pymongo import MongoClient
@@ -60,9 +61,9 @@ def checkin(unique_id: str):
     data = collection.find_one({"unique_id": unique_id, "check_in": False})
     if data:
         collection.update_one({"unique_id": unique_id}, {"$set": {"check_in": True}})
-        return {"message": "checkin successful"}
+        return JSONResponse(content={"message": True, "name": data["name"]}, status_code=200)
     else:
-        return {"message": "user not found"}
+        return JSONResponse(content={"message": False}, status_code=201)
     
 # put api to take unique_id, search user and change lunch status
 @app.put("/lunch/{unique_id}")
@@ -71,9 +72,9 @@ def lunch(unique_id: str):
     data = collection.find_one({"unique_id": unique_id, "check_in": True, "lunch": False})
     if data:
         collection.update_one({"unique_id": unique_id}, {"$set": {"lunch": True}})
-        return {"message": "lunch successful"}
+        return JSONResponse(content={"message": True, "name": data["name"]}, status_code=200)
     else:
-        return {"message": "user not found"}
+        return JSONResponse(content={"message": False}, status_code=201)
     
 # put api to take unique_id, search user and change swag status
 @app.put("/swag/{unique_id}")
@@ -82,9 +83,9 @@ def swag(unique_id: str):
     data = collection.find_one({"unique_id": unique_id, "check_in": True, "swag": False})
     if data:
         collection.update_one({"unique_id": unique_id}, {"$set": {"swag": True}})
-        return {"message": "swag successful"}
+        return JSONResponse(content={"message": True, "name": data["name"]}, status_code=200)
     else:
-        return {"message": "user not found"}
+        return JSONResponse(content={"message": False}, status_code=201)
 
 
 if __name__ == "__main__":
