@@ -96,7 +96,3 @@ def change(qr_id: str, unique_id: str):
         return JSONResponse(content={"message": True, "name": data["name"]}, status_code=200)
     else:
         return JSONResponse(content={"message": False}, status_code=201)
-
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=5000)
