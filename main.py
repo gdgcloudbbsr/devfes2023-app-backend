@@ -87,7 +87,7 @@ def swag(unique_id: str):
     else:
         return JSONResponse(content={"message": False}, status_code=201)
     
-@app.put("/change/{unique_id}")
+@app.put("/change/{unique_id}/{qr_id}")
 def change(qr_id: str, unique_id: str):
     collection = database.db["member-registrations"]
     data = collection.find_one({"unique_id": unique_id, "check_in": True})
